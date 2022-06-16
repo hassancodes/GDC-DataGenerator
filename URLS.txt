@@ -1,0 +1,41 @@
+after finding the fips  this is main url we have to target.
+
++https://eapps.courts.state.va.us/gdcourts/caseSearch.do?fromSidebar=true&searchLanding=searchLanding&searchType=hearingDate&searchDivision=T&searchFipsCode=001&curentFipsCode=
+
+
++payload : {
+curentFipsCode
+searchType
+
+ }
+
+
+after this we have to target this url with a post request
+
+
+-will try sending a post request directly if that works otherwise we need two request per search
+
++https://eapps.courts.state.va.us/gdcourts/caseSearch.do
+
+
++payload : {
+------------------ Required -----------------
+curentFipsCode: 001
+searchTerm: 01/02/2020
+caseSearch: Search
+searchFipsCode: 001
+
+
+-------------- None Required ---------------
+unCheckedCases:
+searchHearingTime:
+searchCourtroom:
+lastName:
+firstName:
+middleName:
+suffix:
+searchHearingType:
+searchUnitNumber:
+formAction:
+
+}
