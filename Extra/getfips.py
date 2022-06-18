@@ -98,9 +98,9 @@ mylist = ["Accomack General District Court",
 "Pittsylvania General District Court",
 "Portsmouth General District Court",
 "Powhatan General District Court",
-"Prince Edward General District Court",
-"Prince George General District Court",
-"Prince William General District Court",
+"PrinceEdward General District Court",
+"PrinceGeorge General District Court",
+"PrinceWilliam General District Court",
 "Pulaski General District Court",
 "Radford General District Court",
 "Rappahannock General District Court",
@@ -144,20 +144,6 @@ mylist = ["Accomack General District Court",
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 mainurl= "https://eapps.courts.state.va.us/gdcourts/caseSearch.do?fromSidebar=true&searchLanding=searchLanding&searchType=hearingDate&searchDivision=T&searchFipsCode=001&curentFipsCode="
 mydict = {}
 rawdict = {}
@@ -165,14 +151,17 @@ rawdict = {}
 col_list = ["County FIPS Code", "GU Name"]
 df = pd.read_csv("data.csv",usecols=col_list)
 
+
+
+
+lollist =  []
 for i in range(len(df["GU Name"])):
     rawdict[df["GU Name"][i]] = df["County FIPS Code"][i]
 
 
 
 for i in range(len(mylist)):
-    
-    
+    global finalurl
     if  mylist[i].split()[0] in rawdict:
         urlformed = str(rawdict[mylist[i].split()[0]])
         if len(str(urlformed)) ==1:
@@ -181,10 +170,13 @@ for i in range(len(mylist)):
             urlformed = "0" + str(urlformed)
         elif len(urlformed) ==3:
             urlformed = str(urlformed)
+            
+        finalurl = f"https://eapps.courts.state.va.us/gdcourts/caseSearch.do?fromSidebar=true&searchLanding=searchLanding&searchType=hearingDate&searchDivision=T&searchFipsCode={urlformed}&curentFipsCode={urlformed}"
         
+        lollist.append(finalurl)    
         formeddict = {i :{
             mylist[i] : urlformed,
-            "url" : f"https://eapps.courts.state.va.us/gdcourts/caseSearch.do?fromSidebar=true&searchLanding=searchLanding&searchType=hearingDate&searchDivision=T&searchFipsCode={urlformed}&curentFipsCode={urlformed}"
+            "url" : finalurl
             
         }}
         
@@ -197,7 +189,12 @@ for i in range(len(mylist)):
     else:
         # print(False)
         pass
+
+with open("districtcourturl.txt", "w") as fp:
+    for i in lollist:
+        fp.write(i+ "\n")
 pprint.pprint(mydict)
+# print(mylist)
 
 
 

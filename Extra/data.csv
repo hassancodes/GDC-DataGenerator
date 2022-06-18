@@ -5,7 +5,7 @@ VA,51,520,09816,01498416,Bristol,city
 VA,51,530,11032,01498417,Buena Vista,city
 VA,51,540,14968,01789068,Charlottesville,city
 VA,51,550,16000,01498558,Chesapeake,city
-VA,51,570,18448,01498420,Colonial Heights,city
+VA,51,570,18448,01498420,Colonial Heights,cit
 VA,51,580,19728,01789069,Covington,city
 VA,51,590,21344,01498421,Danville,city
 VA,51,595,25808,01498422,Emporia,city
@@ -108,9 +108,9 @@ VA,51,139,00000,01500440,Page,County
 VA,51,141,00000,01497999,Patrick,County
 VA,51,143,00000,01480157,Pittsylvania,County
 VA,51,145,00000,01674225,Powhatan,County
-VA,51,147,00000,01492359,Prince Edward,County
-VA,51,149,00000,01480160,Prince George,County
-VA,51,153,00000,01480161,Prince William,County
+VA,51,147,00000,01492359,PrinceEdward,County
+VA,51,149,00000,01480160,PrinceGeorge,County
+VA,51,153,00000,01480161,PrinceWilliam,County
 VA,51,155,00000,01501465,Pulaski,County
 VA,51,157,00000,01673976,Rappahannock,County
 VA,51,159,00000,01480164,Richmond,County

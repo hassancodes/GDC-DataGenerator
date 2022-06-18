@@ -74,7 +74,3 @@ def extractRecord(src):
 
 
 
-# calling the function
-with open("new.html" , "r") as fp:
-    rdata = fp.read()
-    extractRecord(rdata)
