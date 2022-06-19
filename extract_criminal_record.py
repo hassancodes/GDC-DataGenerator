@@ -4,7 +4,7 @@ import pprint
 
 
 # this is the main function to extract the data from case source page
-def extractRecord(src):
+def extractRecord(src,searchDate):
     soup = BeautifulSoup(src, "html.parser")
     tbclass = soup.find_all("td", class_="tableback")
     # we dont want the 3 and 5 index tablebackclass
@@ -65,8 +65,12 @@ def extractRecord(src):
                         c1 +=2
                         c2+=2
             tbcount+=1
-    # we just want that fourth iteration, That will have all the data        
-    print(f"tbcount : {tbcount} ", FinalDict)
+    # we just want that fourth iteration, That will have all the data
+    # print(f"tbcount : {tbcount} ", FinalDict)
+            
+    FinalDict["searchDate"] = searchDate
+    return FinalDict
+
                     
 
 
