@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
 from extract_criminal_record import extractRecord
 from generatedate import generateDateList
+from storeData import storeData
 import time,pprint,logging
 
 # first we need to check for next button as well
@@ -31,9 +32,10 @@ def search_for_case():
     with open("districtcourturl.txt", "r") as fp:
         courtlinks = fp.readlines()
         for courtlink in courtlinks:
+            LISTOFDATADICT = []
             driver.get(courtlink)
             court_name = driver.find_element(by=By.XPATH, value="//input[@name='selectedCourtName']").get_attribute('value')
-            
+            print(court_name)
             # date will be dynamic
             # add a loop here to get the all date data
             date_list = generateDateList()
@@ -41,13 +43,13 @@ def search_for_case():
             # looping for all the date with each court date
             for search_date in date_list:
                 driver.get(courtlink)
-                time.sleep(1)
+                # time.sleep(1)
                 searchElement = driver.find_element(by=By.XPATH, value='//input[contains(@name, "searchTerm")]')
                 searchElement.clear()
                 searchElement.send_keys(str(search_date).replace("-","/"))
                 print(f">>>searching for date {search_date}")
                 driver.find_element(by=By.XPATH, value='//input[contains(@name, "searchTerm")]').send_keys(Keys.ENTER)
-                time.sleep(1)
+                # time.sleep(1)
 
                 linklist = []
                 next_btn_available=True
@@ -72,7 +74,9 @@ def search_for_case():
                         linklist.extend([x.get("href") for x in soup.find_all("a")])
                         driver.find_element(by=By.XPATH, value="//input[@name='caseInfoScrollForward']").click()
                         print("Next button clicked")
-                        time.sleep(1)
+                        # time.sleep(1)
+                        
+                    
 
                         
                     except:
@@ -90,15 +94,16 @@ def search_for_case():
                         extractrecord() function takes in a raw form with data, 
                         and returns a clean dictionary with required data.   
                         ''' 
+                        LISTOFDATADICT.append(extractRecord(src,search_date))
                         print(extractRecord(src,search_date))
 
-                        time.sleep(1)
+                        # time.sleep(1)
 
                         
                 elif len(linklist)==0:
                     print("no element in linklist")
                     
-                    
+        storeData(LISTOFDATADICT,court_name)            
 
 
             
