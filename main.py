@@ -7,10 +7,11 @@ from extract_criminal_record import extractRecord
 from generatedate import generateDateList
 from storeData import storeData
 import time,pprint,logging
-
+import json
 # first we need to check for next button as well
 # put the function on repeat
 # somehow figure out how to get a list of all possible dates 
+
 
 
 
@@ -19,6 +20,7 @@ def search_for_case():
     # op.add_argument('--headless')
     op.add_argument("window-size=1920,1080")
     op.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # op.add_argument("--headless") 
     op.add_experimental_option('useAutomationExtension', False)
     op.add_argument("start-maximized")
     global driver
@@ -32,6 +34,7 @@ def search_for_case():
     with open("districtcourturl.txt", "r") as fp:
         courtlinks = fp.readlines()
         for courtlink in courtlinks:
+            mainDict = {}
             LISTOFDATADICT = []
             driver.get(courtlink)
             court_name = driver.find_element(by=By.XPATH, value="//input[@name='selectedCourtName']").get_attribute('value')
@@ -83,30 +86,39 @@ def search_for_case():
                         next_btn_available=False
                 
                 
-                if len(linklist) !=0:
-                    print(f"found {len(linklist)} links in linklist on date {search_date}")  
-                    # print(linklist)
-                    for link in linklist:
-                        driver.get("https://eapps.courts.state.va.us/gdcourts/" + link)
-                        src =driver.find_element(by=By.NAME, value="criminalDetailForm").get_attribute('outerHTML')
+            if len(linklist) !=0:
+                print(f"found {len(linklist)} links in linklist on date {search_date}")
+                mainDict[court_name]  = {search_date :linklist}
+                print(mainDict)
+                # # print(linklist)
+                # for link in linklist:
+                #     driver.get("https://eapps.courts.state.va.us/gdcourts/" + link)
+                #     src =driver.find_element(by=By.NAME, value="criminalDetailForm").get_attribute('outerHTML')
 
-                        '''
-                        extractrecord() function takes in a raw form with data, 
-                        and returns a clean dictionary with required data.   
-                        ''' 
-                        LISTOFDATADICT.append(extractRecord(src,search_date))
-                        print(extractRecord(src,search_date))
+                #     '''
+                #     extractrecord() function takes in a raw form with data, 
+                #     and returns a clean dictionary with required data.   
+                #     ''' 
+                #     LISTOFDATADICT.append(extractRecord(src,search_date))
+                #     print(extractRecord(src,search_date))
 
-                        # time.sleep(1)
+                    # time.sleep(1)
 
-                        
-                elif len(linklist)==0:
-                    print("no element in linklist")
                     
-        storeData(LISTOFDATADICT,court_name)            
+            elif len(linklist)==0:
+                print("no element in linklist")
+                    
+        # storeData(LISTOFDATADICT,court_name) 
+        pprint.pprint(mainDict)
+        with open("data.json") as jp:
+            json.dump(mainDict,jp) 
+        
 
 
             
             
             
 search_for_case()
+
+# 6 threads 2 sessions to complete an year
+# or 3 threads 4 sessions to complete an year

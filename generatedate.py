@@ -21,7 +21,34 @@ def generateDateList():
     start = datetime.strptime("01-01-2020", "%m-%d-%Y")
     date_generated = pd.date_range(start, periods=delta.days)
     date_list = list(date_generated.strftime("%m-%d-%Y"))
+    if len(date_list)%2 != 0:
+        date_list= date_list[:-1]
+        print(len(date_list))
+    elif len(date_list)%2==0:
+        pass
+    
     return date_list
+
+
+
+
+
+
+
+def getSublists(mainlist,n):
+    subListLength = len(mainlist) // n
+    list_of_sublists = []
+    for i in range(0, len(mainlist), subListLength):
+        list_of_sublists.append(mainlist[i:i+subListLength])
+    return list_of_sublists
+
+# a  = getSublists(generateDateList(),8)
+# print(a)
+
+# for i in a:
+#     print(i)
+#     print("\n \n \n")
+
 
 
     
